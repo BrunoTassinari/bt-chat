@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
+import { useSearchParams } from 'next/navigation'
+
 
 export default function Room() {
+  const searchParams = useSearchParams();
+  const room = searchParams.get('room');
+
+  console.log(room);
+
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");

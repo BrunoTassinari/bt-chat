@@ -1,21 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import io from "socket.io-client";
+import Link from "next/link";
 
 export default function Home() {
-  const socket = io("http://localhost:3000", {
-    transports: ["websocket"],
-  });
+  useEffect(() => {
+    const socket = io("http://localhost:3000", {
+      transports: ["websocket"],
+    });
 
+    setSocket(socket);
+  }, []);
+
+  const [socket, setSocket] = useState<any>();
   const [userData, setUserData] = useState({
     username: "",
     room: "",
     id: "",
   });
-
-  const router = useRouter();
 
   function sendRoom() {
     socket.emit("join_room", {
@@ -23,8 +26,6 @@ export default function Home() {
       username: userData.username,
       id: socket.id,
     });
-
-    router.push(`/room`);
   }
 
   return (
@@ -44,7 +45,9 @@ export default function Home() {
               id="first-name"
               autoComplete="given-name"
               className="block pl-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, username: e.target.value })
+              }
             />
           </div>
         </div>
@@ -61,7 +64,9 @@ export default function Home() {
               name="country"
               autoComplete="country-name"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-              onChange={(e) => setUserData({ ...userData, room: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, room: e.target.value })
+              }
             >
               <option>Selecione uma sala</option>
               <option>Room1</option>
@@ -70,15 +75,21 @@ export default function Home() {
             </select>
           </div>
         </div>
-        <div className=" w-full mt-6 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className=" w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-            onClick={(e) => sendRoom()}
-            disabled={ !userData.username || !userData.room }
+        <div className="w-full mt-6 flex items-center justify-end gap-x-6">
+          <Link
+            className="w-full"
+            href={`/room?room=${userData.room}&username=${userData.username}`}
+    
           >
-            Entrar
-          </button>
+            <button
+              type="button"
+              className=" w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              onClick={(e) => sendRoom()}
+              disabled={!userData.username || !userData.room}
+            >
+              Entrar
+            </button>
+          </Link>
         </div>
       </form>
     </main>

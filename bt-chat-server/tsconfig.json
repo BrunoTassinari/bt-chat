@@ -1,11 +1,16 @@
 {
+  "parserOptions": {
+    "tsconfigRootDir": "__dirname",
+  },
   "compilerOptions": {
+    
     "alwaysStrict": true,
     "noImplicitAny": true,
     "rootDirs": [
       "src",
       "tests"
     ],
+    "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -48,6 +53,7 @@
   ],
   "include": [
     "src/**/*",
-    "src/Routes"
+    "src/Routes",
+    "prisma/**/*"
   ]
 }
