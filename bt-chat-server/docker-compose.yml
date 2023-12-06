@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  database_library:
+    image: postgres
+    container_name: database_bt_chat
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=bt_chat_user
+      - POSTGRES_PASSWORD=bt_chat_password
+      - POSTGRES_DB=bt_chat
+    volumes:
+      - pgdata:/data/postgres
+volumes:
+  pgdata:
+    driver: local
