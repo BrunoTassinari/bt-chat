@@ -8,9 +8,9 @@ const errorMiddleware = (
   res: Response,
   next: NextFunction, // eslint-disable-line @typescript-eslint/no-unused-vars
 ) => {
-  if (error instanceof BaseException) {
-    error.sendError(res);
-  }
+  console.error('Error: ', error);
+
+  if (error instanceof BaseException) return error.sendError(res);
 
   return ExceptionFactory.newException(500).sendError(res);
 };

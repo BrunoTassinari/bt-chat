@@ -15,4 +15,16 @@ export class UsersPrismaRepository implements IUsersRepository {
       },
     });
   }
+
+  async findByUsername(username: string): Promise<boolean> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (user) return true;
+
+    return false;
+  }
 }
