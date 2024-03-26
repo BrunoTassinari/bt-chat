@@ -42,5 +42,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'off',
     'no-param-reassign': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'global-require': 'off',
   },
 };
