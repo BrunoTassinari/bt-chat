@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { AddFriendButton } from '@/components/addFriendButton';
+import AddFriendButton from '@/components/AddFriendButton';
 
 const page: FC = () => {
   return (
@@ -9,4 +9,5 @@ const page: FC = () => {
     </main>
   );
 };
+
 export default page;
