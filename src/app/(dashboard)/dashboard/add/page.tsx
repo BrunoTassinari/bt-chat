@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import AddFriendButton from '@/components/AddFriendButton';
+import { AddFriendButton } from '@/components/addFriendButton';
 
 const page: FC = () => {
   return (

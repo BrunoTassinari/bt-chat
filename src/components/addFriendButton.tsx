@@ -12,7 +12,7 @@ interface AddFriendButtonProps {}
 
 type FormData = z.infer<typeof addFriendValidator>;
 
-const AddFriendButton: FC<AddFriendButtonProps> = () => {
+export const AddFriendButton: FC<AddFriendButtonProps> = () => {
   const [showSuccessState, setShowSuccessState] = useState<boolean>(false);
 
   const {
@@ -74,5 +74,3 @@ const AddFriendButton: FC<AddFriendButtonProps> = () => {
     </form>
   );
 };
-
-export default AddFriendButton;
