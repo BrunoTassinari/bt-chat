@@ -46,6 +46,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={cn(buttonVariants({ variant, size, className }))}
       disabled={isLoading}
+      // eslint-disable-next-line react/button-has-type
       type={type || 'button'}
       {...props}
     >

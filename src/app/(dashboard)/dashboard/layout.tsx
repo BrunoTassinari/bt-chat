@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FC, ReactNode } from 'react';
 import { authOptions } from '@/lib/auth';
-import SignOutButton from '@/components/singOutButton';
+import SignOutButton from '@/components/sing-out-button';
 import { Icon, Icons } from '@/components/icons';
-import FriendRequestSidebarOptions from '@/components/friendRequestSideberOptions';
+import FriendRequestSidebarOptions from '@/components/friend-request-sidebar-options';
 import { fetchRedis } from '@/helpers/redis';
 import { SidebarOption } from '@/types/typings';
 
@@ -25,7 +25,7 @@ const sidebarOptions: SidebarOption[] = [
     id: 1,
     name: 'Add friend',
     href: '/dashboard/add',
-    Icon: 'UserPlus',
+    Icon: 'AddFriend',
   },
 ];
 
@@ -51,7 +51,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
               <ul className="-mx-2 mt-2 space-y-1">
                 {sidebarOptions.map((option) => {
-                  const Icon = Icons[option.Icon];
+                  const Icon = Icons[option.Icon as keyof typeof Icons];
                   return (
                     <li key={option.id}>
                       <Link

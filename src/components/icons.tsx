@@ -9,7 +9,7 @@ export const Icons = {
       />
     </svg>
   ),
-  UserPlus,
+  AddFriend: (props: LucideProps) => <UserPlus {...props} />,
 };
 
 export type Icon = keyof typeof Icons;
