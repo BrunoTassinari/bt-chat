@@ -78,8 +78,8 @@ const Layout = async ({ children }: LayoutProps) => {
             </li>
 
             <li className="-mx-6 mt-auto flex items-center">
-              <div className="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
-                <div className="relative h-8 w-8 bg-gray-50">
+              <div className="flex flex-1 items-center gap-x-4 px-4 py-3 text-sm font-semibold leading-6 text-gray-900">
+                <div className="relative h-6 w-6 bg-gray-50">
                   <Image
                     fill
                     referrerPolicy="no-referrer"
