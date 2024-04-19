@@ -1,27 +1,23 @@
-import { Session } from 'next-auth';
 import { z } from 'zod';
-import { fetchRedis } from '@/helpers/redis';
+import { Session } from 'next-auth';
+import { getCurrentSession } from '@/helpers/auth';
 import { db } from '@/lib/db';
 import { validate } from './validation';
-
-import { addFriendValidator } from '@/lib/validations/add-friend';
-import { getCurrentSession } from '@/helpers/auth';
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
 
-    const { email: emailToAdd } = addFriendValidator.parse(body.email);
-
-    const idToAdd = (await fetchRedis('get', `user:email:${emailToAdd}`)) as string;
-
-    if (!idToAdd) return new Response('User not found', { status: 404 });
+    const { id: idToAdd } = z.object({ id: z.string() }).parse(body);
 
     const session = (await getCurrentSession()) as Session;
 
     await validate(idToAdd, session);
 
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
+    await db.sadd(`user:${session.user.id}:friends`, idToAdd);
+    await db.sadd(`user:${idToAdd}:friends`, session.user.id);
+
+    await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd);
 
     return new Response('OK');
   } catch (error) {
