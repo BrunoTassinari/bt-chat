@@ -6,6 +6,7 @@ import { validate } from './validation';
 
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { getCurrentSession } from '@/helpers/auth';
+import { dbHelper } from '@/helpers/database';
 
 export const POST = async (req: Request) => {
   try {
@@ -21,7 +22,7 @@ export const POST = async (req: Request) => {
 
     await validate(idToAdd, session);
 
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
+    await dbHelper.sendRequest(session.user.id, idToAdd);
 
     return new Response('OK');
   } catch (error) {

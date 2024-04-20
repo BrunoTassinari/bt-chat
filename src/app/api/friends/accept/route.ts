@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { Session } from 'next-auth';
 import { getCurrentSession } from '@/helpers/auth';
-import { db } from '@/lib/db';
 import { validate } from './validation';
+import { dbHelper } from '@/helpers/database';
 
 export const POST = async (req: Request) => {
   try {
@@ -14,10 +14,8 @@ export const POST = async (req: Request) => {
 
     await validate(idToAdd, session);
 
-    await db.sadd(`user:${session.user.id}:friends`, idToAdd);
-    await db.sadd(`user:${idToAdd}:friends`, session.user.id);
-
-    await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd);
+    await dbHelper.addFriend(idToAdd, session.user.id);
+    await dbHelper.removeFriendRequest(session.user.id, idToAdd);
 
     return new Response('OK');
   } catch (error) {

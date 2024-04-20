@@ -2,6 +2,7 @@ import { Session } from 'next-auth';
 import { z } from 'zod';
 import { getCurrentSession } from '@/helpers/auth';
 import { db } from '@/lib/db';
+import { dbHelper } from '@/helpers/database';
 
 export const POST = async (req: Request) => {
   try {
@@ -11,7 +12,7 @@ export const POST = async (req: Request) => {
 
     const session = (await getCurrentSession()) as Session;
 
-    await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToDeny);
+    await dbHelper.removeFriendRequest(session.user.id, idToDeny);
 
     return new Response('OK');
   } catch (error) {
