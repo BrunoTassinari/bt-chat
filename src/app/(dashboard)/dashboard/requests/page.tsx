@@ -2,22 +2,21 @@ import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import { FC } from 'react';
 import FriendRequests from '@/components/friend-requests';
-import { fetchRedis } from '@/helpers/redis';
+import { redisHelper } from '@/helpers/redis';
 import { authOptions } from '@/lib/auth';
 
 const page = async () => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
+  const { id } = session.user;
+
   // ids of people who sent current logged in user a friend requests
-  const incomingSenderIds = (await fetchRedis(
-    'smembers',
-    `user:${session.user.id}:incoming_friend_requests`
-  )) as string[];
+  const incomingSenderIds = (await redisHelper.getUserFriendsRequests(id)) as string[];
 
   const incomingFriendRequests = await Promise.all(
     incomingSenderIds.map(async (senderId) => {
-      const sender = (await fetchRedis('get', `user:${senderId}`)) as string;
+      const sender = (await redisHelper.getUser(senderId)) as string;
       const senderParsed = JSON.parse(sender) as User;
 
       return {

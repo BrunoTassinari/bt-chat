@@ -11,8 +11,9 @@ export const POST = async (req: Request) => {
     const { id: idToDeny } = z.object({ id: z.string() }).parse(body);
 
     const session = (await getCurrentSession()) as Session;
+    const { id } = session.user;
 
-    await dbHelper.removeFriendRequest(session.user.id, idToDeny);
+    await dbHelper.removeFriendRequest(id, idToDeny);
 
     return new Response('OK');
   } catch (error) {

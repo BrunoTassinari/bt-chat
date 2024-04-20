@@ -7,7 +7,7 @@ import { authOptions } from '@/lib/auth';
 import SignOutButton from '@/components/sing-out-button';
 import { Icon, Icons } from '@/components/icons';
 import FriendRequestSidebarOptions from '@/components/friend-request-sidebar-options';
-import { fetchRedis } from '@/helpers/redis';
+import { redisHelper } from '@/helpers/redis';
 import { SidebarOption } from '@/types/typings';
 
 interface LayoutProps {
@@ -33,9 +33,9 @@ const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
 
-  const unseenRequestCount = (
-    (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`)) as User[]
-  ).length;
+  const { id } = session.user;
+
+  const unseenRequestCount = ((await redisHelper.getUserFriendsRequests(id)) as User[]).length;
 
   return (
     <div className="w-full flex h-screen">

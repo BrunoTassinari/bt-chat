@@ -1,9 +1,7 @@
 import { Session } from 'next-auth';
 import { z } from 'zod';
-import { fetchRedis } from '@/helpers/redis';
-import { db } from '@/lib/db';
+import { redisHelper } from '@/helpers/redis';
 import { validate } from './validation';
-
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { getCurrentSession } from '@/helpers/auth';
 import { dbHelper } from '@/helpers/database';
@@ -14,15 +12,16 @@ export const POST = async (req: Request) => {
 
     const { email: emailToAdd } = addFriendValidator.parse(body.email);
 
-    const idToAdd = (await fetchRedis('get', `user:email:${emailToAdd}`)) as string;
+    const idToAdd = (await redisHelper.getUserByEmail(emailToAdd)) as string;
 
     if (!idToAdd) return new Response('User not found', { status: 404 });
 
     const session = (await getCurrentSession()) as Session;
+    const { id } = session.user;
 
-    await validate(idToAdd, session);
+    await validate(id, idToAdd);
 
-    await dbHelper.sendRequest(session.user.id, idToAdd);
+    await dbHelper.sendRequest(id, idToAdd);
 
     return new Response('OK');
   } catch (error) {

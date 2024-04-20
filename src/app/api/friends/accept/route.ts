@@ -11,11 +11,12 @@ export const POST = async (req: Request) => {
     const { id: idToAdd } = z.object({ id: z.string() }).parse(body);
 
     const session = (await getCurrentSession()) as Session;
+    const { id } = session.user;
 
-    await validate(idToAdd, session);
+    await validate(id, idToAdd);
 
-    await dbHelper.addFriend(idToAdd, session.user.id);
-    await dbHelper.removeFriendRequest(session.user.id, idToAdd);
+    await dbHelper.addFriend(idToAdd, id);
+    await dbHelper.removeFriendRequest(id, idToAdd);
 
     return new Response('OK');
   } catch (error) {
