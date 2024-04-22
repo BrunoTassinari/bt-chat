@@ -1,6 +1,9 @@
 import { db } from '@/lib/db';
 
 export const dbHelper = {
+  async getUser(id: string) {
+    return db.get(`user:${id}`);
+  },
   async addFriend(idUser: string, idToAdd: string) {
     await db.sadd(`user:${idUser}:friends`, idToAdd);
     await db.sadd(`user:${idToAdd}:friends`, idUser);

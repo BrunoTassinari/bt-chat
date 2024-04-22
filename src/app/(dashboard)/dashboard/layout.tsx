@@ -9,6 +9,7 @@ import { Icon, Icons } from '@/components/icons';
 import FriendRequestSidebarOptions from '@/components/friend-request-sidebar-options';
 import { redisHelper } from '@/helpers/redis';
 import { SidebarOption } from '@/types/typings';
+import SidebarChatList from '@/components/sidebar-chat-list';
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,6 +36,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
   const { id } = session.user;
 
+  const friends = await redisHelper.getUserFriends(id);
   const unseenRequestCount = ((await redisHelper.getUserFriendsRequests(id)) as User[]).length;
 
   return (
@@ -44,8 +46,15 @@ const Layout = async ({ children }: LayoutProps) => {
           <Icons.Logo className="h-8 w-auto text-indigo-600" />
         </Link>
 
+        {friends.length > 0 ? (
+          <div className="text-xs font-semibold leading-6 text-gray-400">Your chats</div>
+        ) : null}
+
         <nav className="flex flex-1 flex-col">
           <ul className="flex flex-1 flex-col gap-y-7">
+            <li>
+              <SidebarChatList sessionId={session.user.id} friends={friends} />
+            </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">Overview</div>
 
