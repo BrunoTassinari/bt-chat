@@ -31,6 +31,9 @@ export const redisHelper = {
   async getUserFriendsRequests(idUser: string) {
     return redis('smembers', `user:${idUser}:incoming_friend_requests`);
   },
+  async getUserFriendsIds(idUser: string) {
+    return redis('smembers', `user:${idUser}:friends`);
+  },
   async getUserFriends(idUser: string) {
     const friendIds = (await redis('smembers', `user:${idUser}:friends`)) as string[];
     const friends = await Promise.all(

@@ -14,4 +14,10 @@ export const dbHelper = {
   async removeFriendRequest(idUser: string, idToDeny: string) {
     await db.srem(`user:${idUser}:incoming_friend_requests`, idToDeny);
   },
+  async sendMessage(chatId: string, timestamp: number, message: Message) {
+    await db.zadd(`chat:${chatId}:messages`, {
+      score: timestamp,
+      member: JSON.stringify(message),
+    });
+  },
 };
