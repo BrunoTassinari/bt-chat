@@ -7,6 +7,7 @@ import { dbHelper } from '@/helpers/database';
 import { redisHelper } from '@/helpers/redis';
 import { messageArrayValidator } from '@/lib/validations/message';
 import Messages from '@/components/messages';
+import ChatInput from '@/components/chat-input';
 
 interface PageProps {
   params: {
@@ -71,6 +72,7 @@ const page: FC<PageProps> = async ({ params }: PageProps) => {
       </div>
 
       <Messages initialMessages={initialMessages} sessionId={session.user.id} />
+      <ChatInput chatId={chatId} chatPartner={chatPartner} />
     </div>
   );
 };

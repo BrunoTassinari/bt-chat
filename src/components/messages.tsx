@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
