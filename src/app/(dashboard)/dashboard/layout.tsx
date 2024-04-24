@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FC, ReactNode } from 'react';
 import { authOptions } from '@/lib/auth';
-import SignOutButton from '@/components/sing-out-button';
-import { Icon, Icons } from '@/components/icons';
-import FriendRequestSidebarOptions from '@/components/friend-request-sidebar-options';
+import SignOutButton from '@/components/SingOutButton';
+import { Icons } from '@/components/ui/Icons';
+import FriendRequestSidebarOptions from '@/components/FriendRequestSidebarOptions';
 import { redisHelper } from '@/helpers/redis';
 import { SidebarOption } from '@/types/typings';
-import SidebarChatList from '@/components/sidebar-chat-list';
+import SidebarChatList from '@/components/SidebarChatList';
 
 interface LayoutProps {
   children: ReactNode;

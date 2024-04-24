@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from './ui/button';
+import { Button } from './ui/Button';
 import { addFriendValidator } from '@/lib/validations/add-friend';
 
 interface AddFriendButtonProps {}
