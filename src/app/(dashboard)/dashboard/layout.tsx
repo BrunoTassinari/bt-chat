@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { authOptions } from '@/lib/auth';
 import SignOutButton from '@/components/SingOutButton';
 import { Icons } from '@/components/ui/Icons';

@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import { FC } from 'react';
-import FriendRequests from '@/components/friend-requests';
+import FriendRequests from '@/components/FriendRequests';
 import { redisHelper } from '@/helpers/redis';
 import { authOptions } from '@/lib/auth';
 

@@ -6,8 +6,8 @@ import { getCurrentSession } from '@/helpers/auth';
 import { dbHelper } from '@/helpers/database';
 import { redisHelper } from '@/helpers/redis';
 import { messageArrayValidator } from '@/lib/validations/message';
-import Messages from '@/components/messages';
-import ChatInput from '@/components/chat-input';
+import Messages from '@/components/Messages';
+import ChatInput from '@/components/ChatInput';
 
 interface PageProps {
   params: {

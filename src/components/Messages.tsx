@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, formatMessageTimestamp } from '@/lib/utils';
 
 interface MessagesProps {
   initialMessages: Message[];
@@ -10,8 +10,8 @@ interface MessagesProps {
 
 const Messagess: FC<MessagesProps> = ({ initialMessages, sessionId }) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
-
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <div
       id="messages"
@@ -47,7 +47,9 @@ const Messagess: FC<MessagesProps> = ({ initialMessages, sessionId }) => {
                   })}
                 >
                   {message.text}{' '}
-                  <span className="ml-2 text-xs text-gray-400">{message.timestamp}</span>
+                  <span className="ml-2 text-xs text-gray-400">
+                    {formatMessageTimestamp(message.timestamp)}
+                  </span>
                 </span>
               </div>
             </div>

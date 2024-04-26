@@ -3,8 +3,8 @@
 import { FC, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
-import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/Button';
+import { Icons } from '@/components/ui/Icons';
 
 interface LoginProps {}
 
