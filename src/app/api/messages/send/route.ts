@@ -5,6 +5,8 @@ import { getCurrentSession } from '@/helpers/auth';
 import { redisHelper } from '@/helpers/redis';
 import { messageValidator } from '@/lib/validations/message';
 import { dbHelper } from '@/helpers/database';
+import { pusherServer } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
 
 export const POST = async (req: Request) => {
   try {
@@ -36,6 +38,14 @@ export const POST = async (req: Request) => {
     };
 
     const message = messageValidator.parse(messageData);
+
+    await pusherServer.trigger(toPusherKey(`chat:${chatId}`), 'incoming-message', message);
+
+    await pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), 'new_message', {
+      ...message,
+      senderImg: sender.image,
+      senderName: sender.name,
+    });
 
     await dbHelper.sendMessage(chatId, timestamp, message);
 
