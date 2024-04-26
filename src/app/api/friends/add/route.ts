@@ -5,6 +5,8 @@ import { validate } from './validation';
 import { addFriendValidator } from '@/lib/validations/add-friend';
 import { getCurrentSession } from '@/helpers/auth';
 import { dbHelper } from '@/helpers/database';
+import { pusherServer } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
 
 export const POST = async (req: Request) => {
   try {
@@ -17,10 +19,18 @@ export const POST = async (req: Request) => {
     if (!idToAdd) return new Response('User not found', { status: 404 });
 
     const session = (await getCurrentSession()) as Session;
-    const { id } = session.user;
+    const { id, email } = session.user;
 
     await validate(id, idToAdd);
 
+    pusherServer.trigger(
+      toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
+      'incoming_friend_request',
+      {
+        senderId: id,
+        senderEmail: email,
+      }
+    );
     await dbHelper.sendRequest(id, idToAdd);
 
     return new Response('OK');

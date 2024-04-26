@@ -18,3 +18,5 @@ export const formatMessageTimestamp = (timestamp: number) => {
 
   return format(timestamp, 'dd/MM HH:mm');
 };
+
+export const toPusherKey = (key: string) => key.replace(/:/g, '__');
